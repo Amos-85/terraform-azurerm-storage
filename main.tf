@@ -52,6 +52,16 @@ resource "azurerm_storage_account" "storeacc" {
   }
 
   blob_properties {
+  dynamic cors_rule {
+    for_each = var.cors_rule != null ? ["true"] : []
+    content {
+      allowed_headers    = var.cors_rule.allowed_headers
+      allowed_methods    = var.cors_rule.allowed_methods
+      allowed_origins    = var.cors_rule.allowed_origins
+      exposed_headers    = var.cors_rule.exposed_headers
+      max_age_in_seconds = var.cors_rule.max_age_in_seconds
+      }
+    }
     delete_retention_policy {
       days = var.blob_soft_delete_retention_days
     }

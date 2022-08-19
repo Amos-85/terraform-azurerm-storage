@@ -83,7 +83,7 @@ variable "enable_advanced_threat_protection" {
 }
 
 variable "network_rules" {
-  description = "Network rules restricing access to the storage account."
+  description = "Network rules restricting access to the storage account."
   type        = object({ bypass = list(string), ip_rules = list(string), subnet_ids = list(string) })
   default     = null
 }
@@ -133,4 +133,15 @@ variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {}
+}
+
+variable "cors_rule" {
+  type = object({
+    allowed_headers    = list(string)
+    allowed_methods    = list(string)
+    allowed_origins    = list(string)
+    exposed_headers    = list(string)
+    max_age_in_seconds = number
+  })
+  default = null
 }
