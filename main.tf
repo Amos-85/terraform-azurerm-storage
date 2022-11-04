@@ -52,14 +52,14 @@ resource "azurerm_storage_account" "storeacc" {
   }
 
   blob_properties {
-  dynamic cors_rule {
-    for_each = var.cors_rule != null ? ["true"] : []
-    content {
-      allowed_headers    = var.cors_rule.allowed_headers
-      allowed_methods    = var.cors_rule.allowed_methods
-      allowed_origins    = var.cors_rule.allowed_origins
-      exposed_headers    = var.cors_rule.exposed_headers
-      max_age_in_seconds = var.cors_rule.max_age_in_seconds
+    dynamic "cors_rule" {
+      for_each = var.cors_rule != null ? ["true"] : []
+      content {
+        allowed_headers    = var.cors_rule.allowed_headers
+        allowed_methods    = var.cors_rule.allowed_methods
+        allowed_origins    = var.cors_rule.allowed_origins
+        exposed_headers    = var.cors_rule.exposed_headers
+        max_age_in_seconds = var.cors_rule.max_age_in_seconds
       }
     }
     delete_retention_policy {
@@ -76,7 +76,7 @@ resource "azurerm_storage_account" "storeacc" {
   dynamic "network_rules" {
     for_each = var.network_rules != null ? ["true"] : []
     content {
-      default_action             = "Deny"
+      default_action             = var.network_rules.default_action
       bypass                     = var.network_rules.bypass
       ip_rules                   = var.network_rules.ip_rules
       virtual_network_subnet_ids = var.network_rules.subnet_ids

@@ -84,7 +84,7 @@ variable "enable_advanced_threat_protection" {
 
 variable "network_rules" {
   description = "Network rules restricting access to the storage account."
-  type        = object({ bypass = list(string), ip_rules = list(string), subnet_ids = list(string) })
+  type        = object({ default_action = string, bypass = list(string), ip_rules = list(string), subnet_ids = list(string) })
   default     = null
 }
 
